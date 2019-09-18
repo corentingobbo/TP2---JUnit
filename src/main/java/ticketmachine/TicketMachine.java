@@ -27,9 +27,9 @@ public class TicketMachine {
 		if (ticketCost <= 0) {
 			throw new IllegalArgumentException("Ticket price must be positive");
 		}
-		price = ticketCost;
-		balance = 0;
-		total = 0;
+		this.price = ticketCost;
+		this.balance = 0;
+		this.total = 0;
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class TicketMachine {
 	 * @return the price of tickets for this machine
 	 */
 	public int getPrice() {
-		return price;
+		return this.price;
 	}
 
 	/**
@@ -47,14 +47,14 @@ public class TicketMachine {
 	 * @return the total amount collected by the machine.
 	 */
 	public int getTotal() {
-		return total;
+		return this.total;
 	}
 
 	/**
 	 * @return the amount of money already inserted for the next ticket.
 	 */
 	public int getBalance() {
-		return balance;
+		return this.balance;
 	}
 
 	/**
@@ -63,8 +63,11 @@ public class TicketMachine {
 	 * @param amount the amount inserted, in cents (positive)
 	 * @throws IllegalArgumentException if amount is not positive
 	 */
-	public void insertMoney(int amount) {
-		balance = balance + amount;
+	public void insertMoney(int amount) throws Exception {
+            if (amount<=0) {
+                throw new Exception("Montant pas assez eleve");
+            }
+		this.balance = this.balance + amount;
 	}
 
 	/**
@@ -74,7 +77,9 @@ public class TicketMachine {
 	 */
 	public int refund() {
 		System.out.println("Je vous rends : " + balance + " centimes");
-		return balance;
+                int var = this.balance;
+                this.balance = 0;
+		return var;
 	}
 
 	/**
@@ -84,12 +89,25 @@ public class TicketMachine {
 	 */
 	public boolean printTicket() {
 		// Simulate the printing of a ticket.
-		System.out.println("##################");
+		
+                if (this.balance >= this.price) {
+                this.balance = this.balance - this.price;
+                this.total = this.total + this.price;
+                
+                System.out.println("##################");
 		System.out.println("# The BlueJ Line");
 		System.out.println("# Ticket");
 		System.out.println("# " + price + " cents.");
 		System.out.println("##################");
 		System.out.println();
+                
+                
 		return true;
+                
+            }
+                return false;
+                
 	}
+        
+        
 }
